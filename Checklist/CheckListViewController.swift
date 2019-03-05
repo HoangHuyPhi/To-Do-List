@@ -38,6 +38,7 @@ class CheckListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsArray.count
@@ -61,6 +62,9 @@ class CheckListViewController: UITableViewController {
     func configureCheckMark(for cell: UITableViewCell,at indexPath: IndexPath) {
          let item = itemsArray[indexPath.row]
          cell.accessoryType = item.ischecked == false ?.none : .checkmark
+    }
+    
+    @IBAction func addItem(_ sender: Any) {
     }
 }
 
