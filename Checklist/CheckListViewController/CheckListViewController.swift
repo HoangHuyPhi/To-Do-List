@@ -11,13 +11,14 @@ import UIKit
 class CheckListViewController: UITableViewController, AddAndEditItemViewControllerDelegate {
     var categories: CategoriesModel!
     var itemsArray = [ItemModel]()
-    // Initialize itemsArray
+// Initialize itemsArray
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.navigationBar.prefersLargeTitles = true
         title = categories.name
     }
+// MARK:- TableView Methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.items.count
     }
@@ -42,7 +43,10 @@ class CheckListViewController: UITableViewController, AddAndEditItemViewControll
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
     }
-    // Add Item's delegate methods
+}
+
+// MARK:- Add Item's delegate methods
+extension CheckListViewController {
     func AddAndEditViewControllerDidCancel(_ controller: AddAndEditItemViewController) {
         navigationController?.popViewController(animated: true)
     }
@@ -66,13 +70,12 @@ class CheckListViewController: UITableViewController, AddAndEditItemViewControll
         }
         navigationController?.popViewController(animated: true)
     }
-
-    // End
+// MARK:- Configure CheckMark
     func configureCheckMark(for cell: UITableViewCell,at item: ItemModel) {
-         let label = cell.viewWithTag(1001) as! UILabel
-         label.text = item.ischecked == false ? "" : "🏁"
+        let label = cell.viewWithTag(1001) as! UILabel
+        label.text = item.ischecked == false ? "" : "🏁"
     }
-    // Tell the AddItemListViewController to be its Delegate
+// Mark:- Tell the AddItemListViewController to be its Delegate
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddItem" {
             let controller = segue.destination as! AddAndEditItemViewController
@@ -87,4 +90,3 @@ class CheckListViewController: UITableViewController, AddAndEditItemViewControll
         }
     }
 }
-

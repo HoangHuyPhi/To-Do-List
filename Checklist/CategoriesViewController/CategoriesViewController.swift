@@ -13,6 +13,7 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         navigationController?.delegate = self
@@ -26,7 +27,7 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-    // Delegate method
+    // MARK:- Delegate's method
     func AddAndEditCategoriesViewControllerDidCancel(_ controller: AddAndEditCategoriesViewController) {
         navigationController?.popViewController(animated: true)
     }
@@ -43,15 +44,8 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
         tableView.reloadData()
         navigationController?.popViewController(animated: true)
     }
-    // End
-    // SAVE DATA IN USER DEFAULT
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController === self {
-            dataModel.indexOfSelectedCategory = -1
-        }
-    }
-    // End
-    // Table View methods
+    
+    //MARK:- Table View's methods
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataModel.categories.count
     }
@@ -77,7 +71,6 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
             return UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
         }
     }
-    // end
     // Make segue
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         dataModel.indexOfSelectedCategory = indexPath.row
@@ -96,7 +89,9 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
         controller.categoriesToEdit = category
         navigationController?.pushViewController(controller, animated: true)
     }
-    // END
+}
+extension CategoriesViewController {
+    // Prepare for segue
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowCheckList" {
             let controller = segue.destination as! CheckListViewController
@@ -107,5 +102,10 @@ class CategoriesViewController: UITableViewController, AddAndEditCategoriesViewC
             controller.delegate = self
         }
     }
+    // SAVE DATA IN USER DEFAULT
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController === self {
+            dataModel.indexOfSelectedCategory = -1
+        }
+    }
 }
-

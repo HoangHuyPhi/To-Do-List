@@ -22,6 +22,31 @@ class DataModel {
         registerDefaults()
         handleFirstTime()
     }
+    func handleFirstTime() {
+        let userDefaults = UserDefaults.standard
+        let firstTime = userDefaults.bool(forKey: "FirstTime")
+        if firstTime {
+            let category = CategoriesModel(name: "Category")
+            categories.append(category)
+            indexOfSelectedCategory = 0
+            userDefaults.set(false, forKey: "FirstTime")
+            userDefaults.synchronize()
+        }
+    }
+    func sort() {
+        categories.sort { (category1, category2) -> Bool in
+            return category1.name.localizedStandardCompare(category2.name) == .orderedAscending
+        }
+    }
+    class func nextCheckListItemID() -> Int {
+        let userDefaults = UserDefaults.standard
+        let itemID = userDefaults.integer(forKey: "ChecklistItemID")
+        userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
+        userDefaults.synchronize()
+        return itemID
+    }
+}
+extension DataModel {
     // Create a file to store data on device
     func documentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -31,7 +56,7 @@ class DataModel {
         return documentsDirectory().appendingPathComponent("Checklist.plist")
     }
     // Save data to a file
-    func saveChecklistItem() {
+    func SaveChecklistItem() {
         // 1
         let encoder = PropertyListEncoder()
         do {
@@ -56,28 +81,5 @@ class DataModel {
     func registerDefaults() {
         let dictionary = ["categoriesIndex" : -1, "FirstTime" : true] as [String : Any]
         UserDefaults.standard.register(defaults: dictionary)
-    }
-    func handleFirstTime() {
-        let userDefaults = UserDefaults.standard
-        let firstTime = userDefaults.bool(forKey: "FirstTime")
-        if firstTime {
-            let category = CategoriesModel(name: "Category")
-            categories.append(category)
-            indexOfSelectedCategory = 0
-            userDefaults.set(false, forKey: "FirstTime")
-            userDefaults.synchronize()
-        }
-    }
-    func sort() {
-        categories.sort { (category1, category2) -> Bool in
-            return category1.name.localizedStandardCompare(category2.name) == .orderedAscending
-        }
-    }
-    class func nextCheckListItemID() -> Int {
-        let userDefaults = UserDefaults.standard
-        let itemID = userDefaults.integer(forKey: "ChecklistItemID")
-        userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
-        userDefaults.synchronize()
-        return itemID
     }
 }

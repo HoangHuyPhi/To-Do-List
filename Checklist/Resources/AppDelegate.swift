@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     let dataModel = DataModel()
     func saveData() {
-        dataModel.saveChecklistItem()
+        dataModel.SaveChecklistItem()
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {

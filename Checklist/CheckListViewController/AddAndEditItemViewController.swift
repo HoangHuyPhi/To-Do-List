@@ -38,7 +38,7 @@ class AddAndEditItemViewController: UITableViewController, UITextFieldDelegate {
         }
         updateDueDateLabel()
     }
-    
+    // MARK: TableView Data Source's methods
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if indexPath.section == 1 && indexPath.row == 1 {
             return indexPath
@@ -87,7 +87,9 @@ class AddAndEditItemViewController: UITableViewController, UITextFieldDelegate {
         }
         return super.tableView(tableView, indentationLevelForRowAt: newIndexPath)
     }
-    
+}
+
+extension AddAndEditItemViewController {
     @IBAction func Done(_ sender: Any) {
         if let item = itemToEdit {
             item.itemName = addItemTextField.text!
@@ -96,19 +98,19 @@ class AddAndEditItemViewController: UITableViewController, UITextFieldDelegate {
             item.scheduleNotification()
             Delegate?.AddAndEditViewControllerDidFinishEditing(self, didFinishEditing: item)
         } else {
-           let item = ItemModel()
-           item.ischecked = false
-           item.itemName = addItemTextField.text!
-           item.shouldRemind = shouldRemindSwitch.isOn
-           item.dueDate = dueDate
-           item.scheduleNotification()
-           Delegate?.AddAndEditViewController(self, didFinishAdding: item)
+            let item = ItemModel()
+            item.ischecked = false
+            item.itemName = addItemTextField.text!
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = dueDate
+            item.scheduleNotification()
+            Delegate?.AddAndEditViewController(self, didFinishAdding: item)
         }
     }
     @IBAction func Cancel(_ sender: Any) {
         Delegate?.AddAndEditViewControllerDidCancel(self)
     }
-    // Validate user's input in text field
+    //MARK:- Validate user's input in text field
     func textField(_ textField: UITextField,
                    shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
@@ -121,7 +123,7 @@ class AddAndEditItemViewController: UITableViewController, UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         hideDatePicker()
     }
-    // Choose due date methods
+    //MARK:- Due date's methods
     func updateDueDateLabel() {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
